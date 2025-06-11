@@ -2,30 +2,30 @@ import { createTokenAndSaveCookie } from "../jwt/AuthCookie.js";
 import { User } from "../models/admin.model.js"; // Adjust path & name if needed
 import bcrypt from 'bcryptjs';
 
-// export const AddMember = async (req, res) => {
-//   try {
-//     const { username, email, password } = req.body;
+export const AddMember = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
 
-//     if (!username || !email || !password) {
-//       return res.status(400).json({ message: "Username, email, and password are required" });
-//     }
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "Username, email, and password are required" });
+    }
 
-//     const findEmail = await User.findOne({ email });
-//     if (findEmail) {
-//       return res.status(400).json({ message: "Email already exists" });
-//     }
+    const findEmail = await User.findOne({ email });
+    if (findEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
 
-//     const hashpassword = await bcrypt.hash(password, 8);
+    const hashpassword = await bcrypt.hash(password, 8);
 
-//     const newUser = new User({ username, email, password: hashpassword });
-//     await newUser.save();
+    const newUser = new User({ username, email, password: hashpassword });
+    await newUser.save();
 
-//     res.status(200).json({ message: "Member added successfully" });
-//   } catch (error) {
-//     console.error("AddMember error:", error);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// };
+    res.status(200).json({ message: "Member added successfully" });
+  } catch (error) {
+    console.error("AddMember error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;

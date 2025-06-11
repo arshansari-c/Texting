@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { uploadData,fetchUserList, selectConfirmUser,fetchConfirmUser, addUser, FatchUserDetail,fetchPendingUser, AllUserData, FatchAdminDetails, DeleteUser, CancelUser, VerifyConfirmUser, FetchConfirmVerityUser, VerifyUserDetails } from '../controllers/UserList.controller.js';
-import { login, logout } from '../controllers/Admin.controller.js';
+import { AddMember, login, logout } from '../controllers/Admin.controller.js';
 import { CheckAuth } from '../middlewares/checkAuth.js';
 
 // import { AddMember } from '../controllers/Admin.controller.js';
@@ -34,6 +34,7 @@ const upload = multer({ storage, fileFilter });
 
 // Route to upload and insert data to MongoDB
 UserListRouter.post('/uploaddata', upload.single('file'),CheckAuth, uploadData);
+UserListRouter.post('/addmember',CheckAuth,AddMember)
 UserListRouter.get('/fatchusers',CheckAuth,fetchUserList)
 UserListRouter.post('/login',login)
 UserListRouter.post("/logout",logout)
