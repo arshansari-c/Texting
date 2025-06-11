@@ -335,12 +335,12 @@ export const VerifyUserDetails = async (req, res) => {
     }
 
     const findUser = await ConfirmList.findOne({ email, VerifyId, VerificationCode });
-
+    
     if (!findUser) {
       return res.send(`<h2>Invalid User</h2>`);
     }
     const status = findUser.status
-
+    const name = findUser.name
     return res.send(`
   <!DOCTYPE html>
   <html lang="en">
@@ -419,10 +419,10 @@ export const VerifyUserDetails = async (req, res) => {
   </head>
   <body>
     <div class="container">
-      <h2>Verify Participants</h2>
-      <p>We received a request to verify participants.</p>
-
+    <h2>FDCI Manifest Wedding Weekend 2025</h2>
+      <h2>Participant Details</h2>
       <div class="info">
+      <p><strong>FullName:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Status:</strong> ${status}</p>
         <p><strong>Verification ID:</strong> ${VerifyId}</p>
@@ -440,7 +440,7 @@ export const VerifyUserDetails = async (req, res) => {
           const button = document.getElementById("submit");
           button.disabled = true;
 
-          const response = await axios.get("http://localhost:3333/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}", {
+          const response = await axios.get("https://pop-7h18.onrender.com/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}", {
             withCredentials: true
           });
 
@@ -457,7 +457,7 @@ export const VerifyUserDetails = async (req, res) => {
             }, 2000);
           } else if (response.status === 400) {
             Toastify({
-              text: response.data.message,
+              text: error?.response?.data?.message,
               duration: 2000,
               gravity: "top",
               position: "right",
