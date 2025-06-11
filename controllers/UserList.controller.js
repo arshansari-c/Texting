@@ -369,9 +369,7 @@ export const VerifyUserDetails = async (req, res) => {
           try {
             const button = document.getElementById("submit");
             button.disabled = true;
-            const response = await axios.get("http://localhost:3333/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}", {
-              withCredentials: true
-            });
+            const response = await axios.get("http://localhost:3333/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}");
 
             if (response.status === 200) {
               Toastify({
