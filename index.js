@@ -9,10 +9,16 @@ dotenv.config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+import cors from 'cors';
+
+// Allow all origins but still support credentials
 app.use(cors({
-  origin: process.env.FRONTEND_URL,  // ✅ frontend origin
-  credentials: true                  // ✅ allow cookies and headers
+  origin: (origin, callback) => {
+    callback(null, origin); // Reflect the request origin
+  },
+  credentials: true
 }));
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
