@@ -339,82 +339,154 @@ export const VerifyUserDetails = async (req, res) => {
     if (!findUser) {
       return res.send(`<h2>Invalid User</h2>`);
     }
+    const status = findUser.status
 
     return res.send(`
-      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-      <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 40px 20px; display: flex; justify-content: center;">
-        <div style="max-width: 500px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-          <div style="padding: 30px; text-align: center;">
-            <h2 style="color: #333;">Verify Your Email</h2>
-            <p style="font-size: 16px; color: #666;">We received a request to verify your email account.</p>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Verify User</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-            <div style="margin: 20px 0; text-align: left; font-size: 15px; color: #444;">
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Verification ID:</strong> ${VerifyId}</p>
-              <p><strong>Verification Code:</strong> ${VerificationCode}</p>
-            </div>
+      .container {
+        background: white;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        box-sizing: border-box;
+      }
 
-            <button id="submit" 
-              style="background-color: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
-              Confirm Now
-            </button>
-          </div>
-        </div>
+      h2 {
+        color: #333;
+        text-align: center;
+      }
+
+      p {
+        font-size: 16px;
+        color: #666;
+        margin: 10px 0;
+      }
+
+      .info {
+        margin: 20px 0;
+        font-size: 15px;
+        color: #444;
+      }
+
+      .info p {
+        margin: 6px 0;
+      }
+
+      #submit {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      @media screen and (max-width: 480px) {
+        h2 {
+          font-size: 20px;
+        }
+        p, .info {
+          font-size: 14px;
+        }
+        #submit {
+          font-size: 15px;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Verify Participants</h2>
+      <p>We received a request to verify participants.</p>
+
+      <div class="info">
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Status:</strong> ${status}</p>
+        <p><strong>Verification ID:</strong> ${VerifyId}</p>
+        <p><strong>Verification Code:</strong> ${VerificationCode}</p>
       </div>
 
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-      <script>
-        document.getElementById("submit").addEventListener('click', async () => {
-          try {
-            const button = document.getElementById("submit");
-            button.disabled = true;
-            const response = await axios.get("https://pop-7h18.onrender.com/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}");
+      <button id="submit">Confirm Now</button>
+    </div>
 
-            if (response.status === 200) {
-              Toastify({
-                text: "User Verified Successfully",
-                duration: 2000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "green",
-              }).showToast();
-              // Optional: redirect or refresh
-              setTimeout(() => {
-  window.location.href = "http://localhost:5173"
-}, 2000);
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+      document.getElementById("submit").addEventListener('click', async () => {
+        try {
+          const button = document.getElementById("submit");
+          button.disabled = true;
 
-            } else if(response.status==400) {
-              Toastify({
-                text: response.data.message,
-                duration: 2000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "red",
-              }).showToast();
-              button.disabled = false;
-            }
-          } catch (error) {
+          const response = await axios.get("http://localhost:3333/user/verifyconfirmuser/${email}/${VerifyId}/${VerificationCode}", {
+            withCredentials: true
+          });
+
+          if (response.status === 200) {
             Toastify({
-              text: "Error verifying user",
+              text: "User Verified Successfully",
+              duration: 2000,
+              gravity: "top",
+              position: "right",
+              backgroundColor: "green",
+            }).showToast();
+            setTimeout(() => {
+              window.location.href = "http://localhost:5173";
+            }, 2000);
+          } else if (response.status === 400) {
+            Toastify({
+              text: response.data.message,
               duration: 2000,
               gravity: "top",
               position: "right",
               backgroundColor: "red",
             }).showToast();
-            console.log("VerifyUser error", error);
-            document.getElementById("submit").disabled = false;
+            button.disabled = false;
           }
-        });
-        
-      </script>
-    `);
+        } catch (error) {
+          Toastify({
+            text: "Error verifying user",
+            duration: 2000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "red",
+          }).showToast();
+          console.log("VerifyUser error", error);
+          document.getElementById("submit").disabled = false;
+        }
+      });
+    </script>
+  </body>
+  </html>
+`);
+
   } catch (error) {
     console.log("VerifyUserDetails error", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
 export const VerifyConfirmUser = async (req, res) => {
   try {
     const { email, VerifyId, VerificationCode } = req.params;
