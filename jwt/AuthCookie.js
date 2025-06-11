@@ -15,7 +15,8 @@ export const createTokenAndSaveCookie = async ({userId,res}) => {
   
     res.cookie("jwt", token, {
       httpOnly: true, // Prevent client-side access to the cookie
-      sameSite: "strict", // Strict CSRF protection
+      secure: true,  
+      sameSite: "none", // Strict CSRF protection
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     });
     return token
