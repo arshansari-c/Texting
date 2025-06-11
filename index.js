@@ -12,7 +12,7 @@ app.use(cookieParser())
 
 // Allow all origins but still support credentials
 app.use(cors({
-  origin: true,           // reflect the origin (important for credentials)
+  origin: 'https://tubular-narwhal-06156c.netlify.app',           // reflect the origin (important for credentials)
   credentials: true       // allow cookies (Authorization headers, etc.)
 }));
 
