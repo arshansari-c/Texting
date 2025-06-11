@@ -467,7 +467,7 @@ export const VerifyUserDetails = async (req, res) => {
           }
         } catch (error) {
           Toastify({
-            text: "Error verifying user",
+            text: error?.response?.data?.message || "Error verifying user",
             duration: 2000,
             gravity: "top",
             position: "right",
