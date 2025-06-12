@@ -453,7 +453,7 @@ export const VerifyUserDetails = async (req, res) => {
               backgroundColor: "green",
             }).showToast();
             setTimeout(() => {
-              window.location.href = "http://localhost:5173";
+              window.location.href = "https://684a69a4b5a6bec3b95121b6--deluxe-melba-ae6cdd.netlify.app";
             }, 2000);
           } else if (response.status === 400) {
             Toastify({
