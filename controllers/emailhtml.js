@@ -68,14 +68,14 @@ export const emailHTMl = ({ email, VerifyId, VerificationCode, FullName }) => {
         <h1>Your Event Registration is Confirmed 🎉</h1>
       </div>
       <div class="email-body">
-        <h2>Hi ${FullName},</h2>
+        <h2>Hi User</h2>
         <p>We're thrilled to confirm your registration for the upcoming event! Below are your details and access credentials.</p>
 
         <div class="event-details">
-          <p><strong>Event:</strong> {{EventName}}</p>
-          <p><strong>Date:</strong> {{EventDate}}</p>
-          <p><strong>Time:</strong> {{EventTime}}</p>
-          <p><strong>Location:</strong> {{EventLocation}}</p>
+          <p><strong>Event:</strong>FDCI Manifest Wedding Weekend 2025</p>
+          <p><strong>Date:</strong>13/6/25</p>
+          <p><strong>Time:</strong>5:00 PM</p>
+          <p><strong>Location:</strong>New Delhi</p>
         </div>
 
         <p>Here are your personal credentials for this event:</p>
