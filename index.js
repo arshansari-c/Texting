@@ -12,7 +12,7 @@ app.use(cookieParser())
 
 // Allow all origins but still support credentials
 app.use(cors({
-  origin: 'https://684a672e742810c548b08029--cute-faun-d8da07.netlify.app',           // reflect the origin (important for credentials)
+  origin: 'https://684a69a4b5a6bec3b95121b6--deluxe-melba-ae6cdd.netlify.app',           // reflect the origin (important for credentials)
   credentials: true       // allow cookies (Authorization headers, etc.)
 }));
 
