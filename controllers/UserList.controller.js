@@ -22,16 +22,17 @@ export const uploadData = async (req, res) => {
   }
 
   try {
-    // Read and parse .xlsm file
     const workbook = xlsx.readFile(req.file.path, { bookVBA: true });
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     const rawJsonData = xlsx.utils.sheet_to_json(worksheet);
 
-    // Normalize all object keys in the array
-    const jsonData = rawJsonData.map(normalizeKeys);
+    // Normalize keys and add status: 'pending' to each row
+    const jsonData = rawJsonData.map((row) => {
+      const normalized = normalizeKeys(row);
+      return { ...normalized, status: 'pending' };
+    });
 
-    // Insert into MongoDB
     await UserList.insertMany(jsonData);
     fs.unlinkSync(req.file.path); // cleanup uploaded file
 
@@ -46,7 +47,6 @@ export const uploadData = async (req, res) => {
     });
   }
 };
-
 
 export const fetchUserList = async (req, res) => {
   try {
